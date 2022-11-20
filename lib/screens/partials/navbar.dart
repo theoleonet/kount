@@ -6,40 +6,35 @@ class BottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 24,
-        vertical: 16,
+    return Container(
+      height: 96,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(14),
+          topRight: Radius.circular(14),
+        ),
       ),
-      child: Container(
-        height: 64,
-        decoration: BoxDecoration(
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(20),
-            topRight: Radius.circular(20),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          HeroIcon(
+            HeroIcons.home,
+            size: 32,
           ),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            HeroIcon(
-              HeroIcons.home,
-              size: 32,
-            ),
-            HeroIcon(
-              HeroIcons.cog8Tooth,
-              size: 32,
-            ),
-            HeroIcon(
-              HeroIcons.plusCircle,
-              size: 32,
-            ),
-            HeroIcon(
-              HeroIcons.userCircle,
-              size: 32,
-            ),
-          ],
-        ),
+          HeroIcon(
+            HeroIcons.cog8Tooth,
+            size: 32,
+          ),
+          HeroIcon(
+            HeroIcons.plusCircle,
+            size: 32,
+          ),
+          HeroIcon(
+            HeroIcons.userCircle,
+            size: 32,
+          ),
+        ],
       ),
     );
   }
