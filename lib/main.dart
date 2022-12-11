@@ -12,10 +12,13 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      initialRoute: kHomeRoute,
-      routes: router,
-      theme: ThemeData(),
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: MaterialApp(
+        initialRoute: kHomeRoute,
+        routes: router,
+        theme: ThemeData(),
+      ),
     );
   }
 }

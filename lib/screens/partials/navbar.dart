@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
+import 'package:kount/routes/routes.dart';
 
 class BottomNavBar extends StatelessWidget {
   const BottomNavBar({super.key});
@@ -26,13 +27,23 @@ class BottomNavBar extends StatelessWidget {
             HeroIcons.cog8Tooth,
             size: 32,
           ),
-          HeroIcon(
-            HeroIcons.plusCircle,
-            size: 32,
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, kCreateCountdownRoute);
+            },
+            child: HeroIcon(
+              HeroIcons.plusCircle,
+              size: 32,
+            ),
           ),
-          HeroIcon(
-            HeroIcons.userCircle,
-            size: 32,
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, kProfileRoute);
+            },
+            child: HeroIcon(
+              HeroIcons.userCircle,
+              size: 32,
+            ),
           ),
         ],
       ),
