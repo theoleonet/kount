@@ -50,7 +50,7 @@ class _SingleCountdownState extends State<SingleCountdown> {
                     child: const HeroIcon(
                       HeroIcons.arrowLeft,
                       color: Colors.white,
-                      size: 32,
+                      size: 24,
                     ),
                   ),
                   SizedBox(
@@ -61,17 +61,17 @@ class _SingleCountdownState extends State<SingleCountdown> {
                         HeroIcon(
                           HeroIcons.userPlus,
                           color: Colors.white,
-                          size: 32,
+                          size: 24,
                         ),
                         HeroIcon(
                           HeroIcons.arrowUpOnSquare,
                           color: Colors.white,
-                          size: 32,
+                          size: 24,
                         ),
                         HeroIcon(
                           HeroIcons.pencilSquare,
                           color: Colors.white,
-                          size: 32,
+                          size: 24,
                         ),
                       ],
                     ),

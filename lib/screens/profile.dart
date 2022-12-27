@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:kount/screens/partials/navbar.dart';
+import 'package:kount/screens/partials/top_navbar.dart';
 
 class Profile extends StatelessWidget {
   const Profile({super.key});
@@ -9,27 +10,8 @@ class Profile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: Text(
-          'Profile',
-          style: TextStyle(fontSize: 18),
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.white,
-        titleTextStyle: TextStyle(color: Colors.black),
-        iconTheme: IconThemeData(color: Colors.black),
-        leading: Padding(
-          padding: EdgeInsets.only(left: 16),
-          child: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: HeroIcon(
-              HeroIcons.arrowLeft,
-              size: 24,
-            ),
-          ),
-        ),
+      appBar: TopNavBar(
+        title: 'Profile',
         actions: [
           IconButton(
             onPressed: () {},
@@ -39,7 +21,6 @@ class Profile extends StatelessWidget {
             ),
           ),
         ],
-        elevation: 0,
       ),
       body: SafeArea(
         child: Padding(

@@ -19,13 +19,14 @@ class BottomNavBar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          HeroIcon(
-            HeroIcons.home,
-            size: 32,
-          ),
-          HeroIcon(
-            HeroIcons.cog8Tooth,
-            size: 32,
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, kHomeRoute);
+            },
+            child: HeroIcon(
+              HeroIcons.home,
+              size: 32,
+            ),
           ),
           GestureDetector(
             onTap: () {
@@ -33,6 +34,15 @@ class BottomNavBar extends StatelessWidget {
             },
             child: HeroIcon(
               HeroIcons.plusCircle,
+              size: 32,
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, kSettingsRoute);
+            },
+            child: HeroIcon(
+              HeroIcons.cog8Tooth,
               size: 32,
             ),
           ),

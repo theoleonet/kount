@@ -11,6 +11,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:kount/screens/partials/color_button.dart';
 import 'package:kount/screens/partials/navbar.dart';
 import 'package:intl/intl.dart';
+import 'package:kount/screens/partials/top_navbar.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:http/http.dart' as http;
 
@@ -221,28 +222,8 @@ class _CreateCountdownState extends State<CreateCountdown> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Create countdown',
-          style: TextStyle(fontSize: 18),
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.white,
-        titleTextStyle: TextStyle(color: Colors.black),
-        iconTheme: IconThemeData(color: Colors.black),
-        leading: Padding(
-          padding: EdgeInsets.only(left: 16),
-          child: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: HeroIcon(
-              HeroIcons.arrowLeft,
-              size: 24,
-            ),
-          ),
-        ),
-        elevation: 0,
+      appBar: TopNavBar(
+        title: 'Create a new countdown',
       ),
       backgroundColor: Colors.white,
       body: SafeArea(
