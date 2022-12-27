@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kount/screens/single_countdown.dart';
+import 'package:kount/screens/styles/constants.dart';
 
 class CountdownCard extends StatelessWidget {
   const CountdownCard({super.key});
@@ -12,17 +13,16 @@ class CountdownCard extends StatelessWidget {
             MaterialPageRoute(builder: (context) => const SingleCountdown()));
       },
       child: Center(
-        heightFactor: 1,
         child: Column(
           children: [
             SizedBox(
-              height: 168,
+              height: kSmallCardHeight,
               child: FractionallySizedBox(
                 widthFactor: .9,
                 child: Card(
                   clipBehavior: Clip.antiAlias,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(7),
+                    borderRadius: kBaseBorderRadius,
                   ),
                   child: Stack(
                     children: [
@@ -32,7 +32,7 @@ class CountdownCard extends StatelessWidget {
                         fit: BoxFit.cover,
                       ),
                       Container(
-                        color: Colors.black.withOpacity(0.3),
+                        color: kOverlayColor,
                       ),
                       Container(
                         padding: const EdgeInsets.all(20),
@@ -42,32 +42,21 @@ class CountdownCard extends StatelessWidget {
                           children: const [
                             Text(
                               'Dinner at the chineese restaurant with family',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
+                              style: kCardTitleStyle,
                             ),
                             SizedBox(
-                              height: 16,
+                              height: kDefaultSpacer,
                             ),
                             Text(
                               'In 12 days',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
-                              ),
+                              style: kCardTimeStyle,
                             ),
                             SizedBox(
-                              height: 8,
+                              height: kDefaultSpacer / 2,
                             ),
                             Text(
                               '14 november 2022',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 14,
-                              ),
+                              style: kCardDateStyle,
                             ),
                           ],
                         ),
@@ -78,7 +67,7 @@ class CountdownCard extends StatelessWidget {
               ),
             ),
             const SizedBox(
-              height: 24,
+              height: kDefaultSpacer * 1.5,
             )
           ],
         ),

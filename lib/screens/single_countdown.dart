@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:kount/screens/partials/navbar.dart';
 import 'package:kount/screens/partials/text_editor.dart';
+import 'package:kount/screens/styles/constants.dart';
 
 class SingleCountdown extends StatefulWidget {
   const SingleCountdown({super.key});
@@ -22,20 +23,13 @@ class _SingleCountdownState extends State<SingleCountdown> {
             fit: BoxFit.cover,
           ),
           Container(
-            color: Colors.black.withOpacity(0.3),
+            color: kOverlayColor,
           ),
           Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Colors.black,
-                  Colors.black.withOpacity(0),
-                ],
-              ),
+            decoration: const BoxDecoration(
+              gradient: kNavbarGradient,
             ),
-            height: 300,
+            height: kNavbarGradientHeight,
           ),
           SafeArea(
             child: Container(
@@ -50,71 +44,60 @@ class _SingleCountdownState extends State<SingleCountdown> {
                     child: const HeroIcon(
                       HeroIcons.arrowLeft,
                       color: Colors.white,
-                      size: 24,
+                      size: kBaseIconSize,
                     ),
                   ),
-                  SizedBox(
-                    width: 160,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
-                        HeroIcon(
-                          HeroIcons.userPlus,
-                          color: Colors.white,
-                          size: 24,
-                        ),
-                        HeroIcon(
-                          HeroIcons.arrowUpOnSquare,
-                          color: Colors.white,
-                          size: 24,
-                        ),
-                        HeroIcon(
-                          HeroIcons.pencilSquare,
-                          color: Colors.white,
-                          size: 24,
-                        ),
-                      ],
-                    ),
+                  const Spacer(),
+                  Row(
+                    children: const [
+                      HeroIcon(
+                        HeroIcons.userPlus,
+                        color: kSingleCountdownIconsColor,
+                        size: kBaseIconSize,
+                      ),
+                      SizedBox(width: kDefaultSpacer * 2),
+                      HeroIcon(
+                        HeroIcons.arrowUpOnSquare,
+                        color: kSingleCountdownIconsColor,
+                        size: kBaseIconSize,
+                      ),
+                      SizedBox(width: kDefaultSpacer * 2),
+                      HeroIcon(
+                        HeroIcons.pencilSquare,
+                        color: kSingleCountdownIconsColor,
+                        size: kBaseIconSize,
+                      ),
+                    ],
                   ),
                 ],
               ),
             ),
           ),
           Container(
-            height: MediaQuery.of(context).size.height - 208,
+            height:
+                MediaQuery.of(context).size.height - kHeightFromBottomForText,
             padding: const EdgeInsets.only(left: 24, right: 24),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.end,
               children: const [
                 Text(
-                  'Dinner at the chineese restaurant with family',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  'Dinner at the chineese restaurant with family and also with our friends, it will be super duper cool!! you\'ll see',
+                  style: kSingleCountdownTitleStyle,
                 ),
                 SizedBox(
-                  height: 16,
+                  height: kDefaultSpacer,
                 ),
                 Text(
                   'In 12 days',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 32,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: kSingleCountdownTimeStyle,
                 ),
                 SizedBox(
-                  height: 8,
+                  height: kDefaultSpacer / 2,
                 ),
                 Text(
                   '14 november 2022',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                  ),
+                  style: kSingleCountdownDateStyle,
                 ),
               ],
             ),
@@ -129,10 +112,7 @@ class _SingleCountdownState extends State<SingleCountdown> {
                 return Container(
                   decoration: const BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(14),
-                      topRight: Radius.circular(14),
-                    ),
+                    borderRadius: kTopBorderRadius,
                   ),
                   child: ListView.builder(
                     padding: const EdgeInsets.only(top: 24),
@@ -144,10 +124,10 @@ class _SingleCountdownState extends State<SingleCountdown> {
                           HeroIcon(
                             HeroIcons.chevronUp,
                             color: Colors.black,
-                            size: 32,
+                            size: kBigIconSize,
                           ),
                           SizedBox(
-                            height: 40,
+                            height: kDefaultSpacer * 2.5,
                           ),
                           TextEditor(),
                         ],

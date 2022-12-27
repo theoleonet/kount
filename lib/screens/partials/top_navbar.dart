@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
+import 'package:kount/screens/styles/constants.dart';
 
 class TopNavBar extends StatelessWidget implements PreferredSizeWidget {
   const TopNavBar({this.title = '', this.actions, super.key});
@@ -17,12 +18,11 @@ class TopNavBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       title: Text(
         title,
-        style: TextStyle(fontSize: 18),
       ),
       centerTitle: true,
-      backgroundColor: Colors.white,
-      titleTextStyle: TextStyle(color: Colors.black),
-      iconTheme: IconThemeData(color: Colors.black),
+      backgroundColor: kBackgroundColor,
+      titleTextStyle: kTopNavBarTitleStyle,
+      iconTheme: kTopNavBarIconsStyle,
       leading: canPop(context)
           ? Padding(
               padding: EdgeInsets.only(left: 16),
@@ -32,7 +32,7 @@ class TopNavBar extends StatelessWidget implements PreferredSizeWidget {
                 },
                 icon: HeroIcon(
                   HeroIcons.arrowLeft,
-                  size: 24,
+                  size: kBaseIconSize,
                 ),
               ),
             )

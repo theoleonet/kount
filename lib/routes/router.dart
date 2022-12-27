@@ -5,6 +5,7 @@ import 'package:kount/screens/home.dart';
 import 'package:kount/screens/profile.dart';
 import 'package:kount/screens/settings/countdown_format.dart';
 import 'package:kount/screens/settings/countdown_size.dart';
+import 'package:kount/screens/settings/custom_theme.dart';
 import 'package:kount/screens/settings/settings.dart';
 
 Map<String, WidgetBuilder> router = {
@@ -13,5 +14,6 @@ Map<String, WidgetBuilder> router = {
   kProfileRoute: (context) => const Profile(),
   kSettingsRoute: (context) => const Settings(),
   kCountdownFormatRoute: (context) => const CountdownFormat(),
-  kCountdownSizeRoute: (contect) => const CountdownSize(),
+  kCountdownSizeRoute: (context) => const CountdownSize(),
+  kThemeRoute: (context) => const CustomTheme(),
 };

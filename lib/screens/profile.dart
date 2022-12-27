@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
+import 'package:kount/screens/partials/button.dart';
 import 'package:kount/screens/partials/navbar.dart';
+import 'package:kount/screens/partials/profile_field.dart';
 import 'package:kount/screens/partials/top_navbar.dart';
+import 'package:kount/screens/styles/constants.dart';
 
 class Profile extends StatelessWidget {
   const Profile({super.key});
@@ -9,7 +12,7 @@ class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: kBackgroundColor,
       appBar: TopNavBar(
         title: 'Profile',
         actions: [
@@ -44,124 +47,44 @@ class Profile extends StatelessWidget {
                           ),
                         ),
                         SizedBox(
-                          height: 16,
+                          height: kDefaultSpacer,
                         ),
                         Text(
                           'Tom Jedusor',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style: kCreationFieldLabel,
                         ),
                       ],
                     ),
                   ],
                 ),
                 SizedBox(
-                  height: 40,
+                  height: kDefaultSpacer * 2.5,
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Email',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 16,
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                        border: Border(
-                            bottom: BorderSide(width: 1, color: Colors.grey)),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 8),
-                        child: Text(
-                          'LordVoldy@darkmail.net',
-                          style: TextStyle(
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
+                ProfileField(
+                  label: 'Email',
+                  value: 'tomvoldy@evilmail.com',
                 ),
                 SizedBox(
-                  height: 40,
+                  height: kDefaultSpacer * 2.5,
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Password',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 16,
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                        border: Border(
-                            bottom: BorderSide(width: 1, color: Colors.grey)),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 8),
-                        child: Text(
-                          '••••••••••••••••••••',
-                          style: TextStyle(
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
+                ProfileField(
+                  label: 'Password',
+                  value: '•••••••••••••••',
                 ),
                 SizedBox(
-                  height: 40,
+                  height: kDefaultSpacer * 2.5,
                 ),
-                Container(
-                  height: 48,
+                Button(
+                  text: 'Log out',
                   width: 200,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(7),
-                    color: Colors.grey,
-                  ),
-                  alignment: Alignment.center,
-                  child: Text(
-                    'Log out',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                    ),
-                  ),
                 ),
                 SizedBox(
-                  height: 16,
+                  height: kDefaultSpacer,
                 ),
-                Container(
-                  height: 48,
+                Button(
+                  text: 'Delete account',
+                  color: Color(0xFFF44336),
                   width: 200,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(7),
-                    color: Colors.red,
-                  ),
-                  alignment: Alignment.center,
-                  child: Text(
-                    'Delete account',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                    ),
-                  ),
                 ),
               ],
             ),

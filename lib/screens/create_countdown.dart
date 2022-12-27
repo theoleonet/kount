@@ -1,17 +1,16 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:kount/screens/partials/button.dart';
 import 'package:kount/screens/partials/color_button.dart';
-import 'package:kount/screens/partials/navbar.dart';
 import 'package:intl/intl.dart';
 import 'package:kount/screens/partials/top_navbar.dart';
+import 'package:kount/screens/styles/constants.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:http/http.dart' as http;
 
@@ -33,18 +32,18 @@ class _CreateCountdownState extends State<CreateCountdown> {
   bool photoAdded = false;
   String backgroundType = 'color';
 
-  Color color = Color(0xFFEEEEEE);
+  Color color = kBaseColorPickerColor;
   late List<Color?> colors;
 
   void initState() {
     colors = [
       null,
-      Color(0xFFFF0000),
-      Color(0xFFFF6F00),
-      Color(0xFFFDD835),
-      Color(0xFFAEEA00),
-      Color(0xFF26C6DA),
-      Color(0xFF7B1FA2),
+      kBaseColorPickerRed,
+      kBaseColorPickerOrange,
+      kBaseColorPickerYellow,
+      kBaseColorPickerGreen,
+      kBaseColorPickerBlue,
+      kBaseColorPickerPurple,
       color,
     ];
 
@@ -92,32 +91,30 @@ class _CreateCountdownState extends State<CreateCountdown> {
 //Get images from the gallery
   getImages() async {
     lastPage = currentPage;
-    final PermissionState _ps = await PhotoManager.requestPermissionExtend();
-    if (_ps.isAuth) {
+    final PermissionState ps = await PhotoManager.requestPermissionExtend();
+    if (ps.isAuth) {
       List<AssetPathEntity> albums =
           await PhotoManager.getAssetPathList(onlyAll: true);
-      print(albums);
-      List<AssetEntity> media =
-          await albums[0].getAssetListPaged(page: currentPage, size: 20);
-      print(media);
+      List<AssetEntity> media = await albums[0]
+          .getAssetListPaged(page: currentPage, size: kShownInPicker);
       List<Widget> temp = [];
       for (var asset in media) {
         temp.add(
           FutureBuilder(
             future: asset.thumbnailDataWithSize(
-              ThumbnailSize(750, 1334),
+              kImageThumbnailSize,
             ),
             builder:
                 (BuildContext context, AsyncSnapshot<Uint8List?> snapshot) {
               if (asset.type == AssetType.video) {
                 return Container();
               }
-              if (snapshot.connectionState == ConnectionState.done)
+              if (snapshot.connectionState == ConnectionState.done) {
                 return Stack(
                   children: <Widget>[
                     Positioned.fill(
                       child: ClipRRect(
-                        borderRadius: BorderRadius.circular(7),
+                        borderRadius: kBaseBorderRadius,
                         child: Image.memory(
                           snapshot.data!,
                           fit: BoxFit.cover,
@@ -126,6 +123,7 @@ class _CreateCountdownState extends State<CreateCountdown> {
                     ),
                   ],
                 );
+              }
               return Container();
             },
           ),
@@ -153,17 +151,18 @@ class _CreateCountdownState extends State<CreateCountdown> {
       final imageTemp = File(image.path);
       setState(() {
         this.image = imageTemp;
-        if (!photoAdded)
+        if (!photoAdded) {
           _mediaFromLibraryList.insert(1, _mediaFromLibraryList[0]);
+        }
         photoAdded = true;
         _mediaFromLibraryList[0] = Container(
-          height: 150,
-          width: 85,
+          height: kImageThumbnailHeight,
+          width: kImageThumbnailWidth,
           child: Stack(
             children: <Widget>[
               Positioned.fill(
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(7),
+                  borderRadius: kBaseBorderRadius,
                   child: Image.file(
                     this.image!,
                     fit: BoxFit.cover,
@@ -193,7 +192,7 @@ class _CreateCountdownState extends State<CreateCountdown> {
                 children: <Widget>[
                   Positioned.fill(
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(7),
+                      borderRadius: kBaseBorderRadius,
                       child: Image.network(
                         data['urls']['regular'],
                         fit: BoxFit.cover,
@@ -225,7 +224,7 @@ class _CreateCountdownState extends State<CreateCountdown> {
       appBar: TopNavBar(
         title: 'Create a new countdown',
       ),
-      backgroundColor: Colors.white,
+      backgroundColor: kBackgroundColor,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
@@ -237,42 +236,39 @@ class _CreateCountdownState extends State<CreateCountdown> {
                   children: [
                     Text(
                       'Title of the countdown',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: kCreationFieldLabel,
                     ),
                     SizedBox(
-                      height: 8,
+                      height: kDefaultSpacer / 2,
+                    ),
+                    Text(
+                      'Ex: Dinner at the chineese restautant with family',
+                      style: kCreationFieldSubLabel,
+                    ),
+                    SizedBox(
+                      height: kDefaultSpacer,
                     ),
                     TextField(
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                      ),
+                      decoration: kInputDecoration,
                     ),
                   ],
                 ),
                 SizedBox(
-                  height: 64,
+                  height: kDefaultSpacer * 4,
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       'Date of the event',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: kCreationFieldLabel,
                     ),
                     SizedBox(
-                      height: 8,
+                      height: kDefaultSpacer / 2,
                     ),
                     Text(
                       DateFormat('y MMMM d').format(eventTime).toString(),
-                      style: TextStyle(
-                        color: Colors.black54,
-                      ),
+                      style: kCreationFieldSubLabel,
                     ),
                     SizedBox(
                       height: 24,
@@ -292,7 +288,7 @@ class _CreateCountdownState extends State<CreateCountdown> {
                   ],
                 ),
                 SizedBox(
-                  height: 64,
+                  height: kDefaultSpacer * 4,
                 ),
                 Container(
                   width: MediaQuery.of(context).size.width,
@@ -302,16 +298,13 @@ class _CreateCountdownState extends State<CreateCountdown> {
                     children: [
                       Text(
                         'Choose a background',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: kCreationFieldLabel,
                       ),
                       SizedBox(
-                        height: 24,
+                        height: kDefaultSpacer * 1.5,
                       ),
                       SizedBox(
-                        height: 56,
+                        height: kDefaultSpacer * 6,
                         child: ListView.builder(
                             physics: ClampingScrollPhysics(),
                             shrinkWrap: true,
@@ -320,63 +313,71 @@ class _CreateCountdownState extends State<CreateCountdown> {
                             itemBuilder: (BuildContext context, int index) {
                               return Row(
                                 children: [
-                                  GestureDetector(
-                                    onTap: () {
-                                      setState(() {
-                                        selectedIndex = index;
-                                        backgroundType = 'color';
-                                      });
-                                      if (selectedIndex == colors.length - 1 &&
-                                          backgroundType == 'color') {
-                                        pickColor(context);
-                                      }
-                                    },
-                                    child: ColorButton(
-                                      color: index == 7 ? color : colors[index],
-                                      icon: icons[index],
-                                      border: index == selectedIndex &&
-                                              backgroundType == 'color'
-                                          ? true
-                                          : false,
-                                    ),
+                                  Column(
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            selectedIndex = index;
+                                            backgroundType = 'color';
+                                          });
+                                          if (selectedIndex ==
+                                                  colors.length - 1 &&
+                                              backgroundType == 'color') {
+                                            pickColor(context);
+                                          }
+                                        },
+                                        child: ColorButton(
+                                          color: index == colors.length - 1
+                                              ? color
+                                              : colors[index],
+                                          icon: icons[index],
+                                        ),
+                                      ),
+                                      Text(
+                                        selectedIndex == index &&
+                                                backgroundType == 'color'
+                                            ? '•'
+                                            : '',
+                                        style: kSelectIndicator,
+                                      ),
+                                    ],
                                   ),
                                   SizedBox(
-                                    width: 24,
+                                    width: kDefaultSpacer * 1.5,
                                   ),
                                 ],
                               );
                             }),
                       ),
                       SizedBox(
-                        height: 64,
+                        height: kDefaultSpacer * 3,
                       ),
-                      Row(children: [
-                        Text(
-                          'Photo library',
-                          style: TextStyle(
-                            fontSize: 18,
+                      Row(
+                        children: [
+                          Text(
+                            'Photo library',
+                            style: kCreationFieldSmallLabel,
                           ),
-                        ),
-                        Spacer(),
-                        GestureDetector(
-                          onTap: () {
-                            pickImage();
-                            selectedIndex = 0;
-                            backgroundType = 'galeryImage';
-                          },
-                          child: Text(
-                            'View all',
-                            style: TextStyle(
-                                decoration: TextDecoration.underline,
-                                color: Colors.grey),
-                          ),
-                        )
-                      ]),
+                          Spacer(),
+                          GestureDetector(
+                            onTap: () {
+                              pickImage();
+                              selectedIndex = 0;
+                              backgroundType = 'galeryImage';
+                            },
+                            child: Text(
+                              'View all',
+                              style: kCreationFieldActionButton,
+                            ),
+                          )
+                        ],
+                      ),
                       SizedBox(
-                        height: 16,
+                        height: kDefaultSpacer,
                       ),
                       Container(
-                        height: 150,
+                        height: kImageThumbnailHeight * 1.3,
                         child: ListView.builder(
                             shrinkWrap: true,
                             scrollDirection: Axis.horizontal,
@@ -384,60 +385,62 @@ class _CreateCountdownState extends State<CreateCountdown> {
                             itemBuilder: (BuildContext context, int index) {
                               return Row(
                                 children: [
-                                  GestureDetector(
-                                    onTap: () {
-                                      setState(() {
-                                        selectedIndex = index;
-                                        backgroundType = 'galeryImage';
-                                      });
-                                    },
-                                    child: Container(
-                                      height: 150,
-                                      width: 85,
-                                      decoration: BoxDecoration(
-                                          border: selectedIndex == index &&
-                                                  backgroundType ==
-                                                      'galeryImage'
-                                              ? Border.all(color: Colors.black)
-                                              : null,
-                                          borderRadius:
-                                              BorderRadius.circular(7)),
-                                      child: _mediaFromLibraryList[index],
-                                    ),
+                                  Column(
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            selectedIndex = index;
+                                            backgroundType = 'galeryImage';
+                                          });
+                                        },
+                                        child: Container(
+                                          height: kImageThumbnailHeight,
+                                          width: kImageThumbnailWidth,
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  kBaseBorderRadius * 1.3),
+                                          child: _mediaFromLibraryList[index],
+                                        ),
+                                      ),
+                                      Text(
+                                        selectedIndex == index &&
+                                                backgroundType == 'galeryImage'
+                                            ? '•'
+                                            : '',
+                                        style: kSelectIndicator,
+                                      ),
+                                    ],
                                   ),
                                   SizedBox(
-                                    width: 16,
+                                    width: kDefaultSpacer,
                                   ),
                                 ],
                               );
                             }),
                       ),
                       SizedBox(
-                        height: 64,
+                        height: kDefaultSpacer * 3,
                       ),
                       Row(children: [
                         Text(
                           'Unsplash',
-                          style: TextStyle(
-                            fontSize: 18,
-                          ),
+                          style: kCreationFieldSmallLabel,
                         ),
                         Spacer(),
                         GestureDetector(
                           onTap: () => searchImage(),
                           child: Text(
                             'Search',
-                            style: TextStyle(
-                                decoration: TextDecoration.underline,
-                                color: Colors.grey),
+                            style: kCreationFieldActionButton,
                           ),
                         )
                       ]),
                       SizedBox(
-                        height: 16,
+                        height: kDefaultSpacer,
                       ),
                       Container(
-                        height: 150,
+                        height: kImageThumbnailHeight * 1.3,
                         child: ListView.builder(
                           shrinkWrap: true,
                           scrollDirection: Axis.horizontal,
@@ -445,28 +448,35 @@ class _CreateCountdownState extends State<CreateCountdown> {
                           itemBuilder: (BuildContext context, int index) {
                             return Row(
                               children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      selectedIndex = index;
-                                      backgroundType = 'unsplashImage';
-                                    });
-                                  },
-                                  child: Container(
-                                    height: 150,
-                                    width: 85,
-                                    decoration: BoxDecoration(
-                                      border: selectedIndex == index &&
-                                              backgroundType == 'unsplashImage'
-                                          ? Border.all(color: Colors.black)
-                                          : null,
-                                      borderRadius: BorderRadius.circular(7),
+                                Column(
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          selectedIndex = index;
+                                          backgroundType = 'unsplashImage';
+                                        });
+                                      },
+                                      child: Container(
+                                        height: kImageThumbnailHeight,
+                                        width: kImageThumbnailWidth,
+                                        decoration: BoxDecoration(
+                                          borderRadius: kBaseBorderRadius,
+                                        ),
+                                        child: _mediaFromUnsplashList[index],
+                                      ),
                                     ),
-                                    child: _mediaFromUnsplashList[index],
-                                  ),
+                                    Text(
+                                      selectedIndex == index &&
+                                              backgroundType == 'unsplashImage'
+                                          ? '•'
+                                          : '',
+                                      style: kSelectIndicator,
+                                    ),
+                                  ],
                                 ),
                                 SizedBox(
-                                  width: 16,
+                                  width: kDefaultSpacer,
                                 ),
                               ],
                             );
@@ -474,23 +484,9 @@ class _CreateCountdownState extends State<CreateCountdown> {
                         ),
                       ),
                       SizedBox(
-                        height: 64,
+                        height: kDefaultSpacer * 2,
                       ),
-                      Container(
-                        height: 48,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(7),
-                          color: Colors.grey,
-                        ),
-                        alignment: Alignment.center,
-                        child: Text(
-                          'Create Countdown',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                          ),
-                        ),
-                      ),
+                      Button(text: 'Create countdown'),
                     ],
                   ),
                 ),

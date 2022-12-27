@@ -1,28 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
+import 'package:kount/screens/styles/constants.dart';
 
 class ColorButton extends StatelessWidget {
-  const ColorButton({super.key, this.color, this.icon, this.border = false});
+  const ColorButton({
+    super.key,
+    this.color,
+    this.icon,
+    /* this.border = false */
+  });
 
   final Color? color;
   final HeroIcons? icon;
-  final bool border;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 56,
+      width: kColorButtonRadius,
+      height: kColorButtonRadius,
       decoration: BoxDecoration(
-        color: color == null ? Color(0xFFEEEEEE) : color!,
+        color: color == null ? kBaseColorButtonColor : color!,
         shape: BoxShape.circle,
-        border: border ? Border.all() : null,
       ),
       child: Center(
         child: icon == null
             ? null
             : HeroIcon(
                 icon!,
-                color: Colors.grey,
+                color: kColorButtonIconColor,
               ),
       ),
     );

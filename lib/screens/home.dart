@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:heroicons/heroicons.dart';
 import 'package:kount/screens/cards/countdown_card.dart';
 import 'package:kount/screens/partials/navbar.dart';
 import 'package:kount/screens/partials/top_navbar.dart';
+import 'package:kount/screens/styles/constants.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -10,8 +10,10 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: TopNavBar(title: 'Home'),
+      backgroundColor: kBackgroundColor,
+      appBar: TopNavBar(
+        title: 'Home',
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(

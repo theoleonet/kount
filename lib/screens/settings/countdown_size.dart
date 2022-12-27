@@ -20,7 +20,7 @@ class _CountdownSizeState extends State<CountdownSize> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(
-          'Countdown Format',
+          'Countdown Size',
           style: TextStyle(fontSize: 18),
         ),
         centerTitle: true,
