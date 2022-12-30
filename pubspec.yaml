@@ -41,6 +41,9 @@ dependencies:
   flutter_colorpicker: ^1.0.3
   image_picker: ^0.8.6
   photo_manager: ^2.5.1+1
+  appwrite: ^8.2.0
+  provider: ^6.0.5
+  email_validator: ^2.1.17
 
 dev_dependencies:
   flutter_test:

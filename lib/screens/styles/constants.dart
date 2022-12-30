@@ -80,6 +80,11 @@ const TextStyle kCreationFieldActionButton = TextStyle(
   color: Colors.grey,
 );
 
+const TextStyle kUnderlineText = TextStyle(
+  decoration: TextDecoration.underline,
+  fontSize: 18,
+);
+
 const TextStyle kSelectIndicator = TextStyle(
   fontSize: 32,
 );
@@ -135,3 +140,7 @@ const TextStyle kTopNavBarTitleStyle = TextStyle(
 );
 
 const IconThemeData kTopNavBarIconsStyle = IconThemeData(color: Colors.black);
+
+const Color kRadioButtonActiveColor = Color(0xFF000000);
+
+const TextStyle kCreationFieldError = TextStyle(color: Colors.red);

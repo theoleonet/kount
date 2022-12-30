@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:kount/routes/routes.dart';
-import 'package:kount/screens/partials/SettingRow.dart';
+import 'package:kount/screens/partials/setting_row.dart';
 import 'package:kount/screens/partials/button.dart';
 import 'package:kount/screens/partials/navbar.dart';
 import 'package:kount/screens/partials/top_navbar.dart';

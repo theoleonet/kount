@@ -9,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:kount/screens/partials/button.dart';
 import 'package:kount/screens/partials/color_button.dart';
 import 'package:intl/intl.dart';
+import 'package:kount/screens/partials/custom_text_field.dart';
 import 'package:kount/screens/partials/top_navbar.dart';
 import 'package:kount/screens/styles/constants.dart';
 import 'package:photo_manager/photo_manager.dart';
@@ -231,27 +232,9 @@ class _CreateCountdownState extends State<CreateCountdown> {
             padding: const EdgeInsets.all(24),
             child: Column(
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Title of the countdown',
-                      style: kCreationFieldLabel,
-                    ),
-                    SizedBox(
-                      height: kDefaultSpacer / 2,
-                    ),
-                    Text(
-                      'Ex: Dinner at the chineese restautant with family',
-                      style: kCreationFieldSubLabel,
-                    ),
-                    SizedBox(
-                      height: kDefaultSpacer,
-                    ),
-                    TextField(
-                      decoration: kInputDecoration,
-                    ),
-                  ],
+                CustomTextField(
+                  label: 'Title of the countdown',
+                  help: 'Ex: Dinner at the chineese restaurant with family',
                 ),
                 SizedBox(
                   height: kDefaultSpacer * 4,

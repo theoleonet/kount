@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:kount/screens/partials/navbar.dart';
+import 'package:kount/screens/partials/top_navbar.dart';
+import 'package:kount/screens/styles/constants.dart';
 
 class CustomTheme extends StatefulWidget {
   const CustomTheme({super.key});
@@ -19,27 +21,8 @@ class _CustomThemeState extends State<CustomTheme> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: Text(
-          'Theme',
-          style: TextStyle(fontSize: 18),
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.white,
-        titleTextStyle: TextStyle(color: Colors.black),
-        iconTheme: IconThemeData(color: Colors.black),
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: HeroIcon(
-            HeroIcons.arrowLeft,
-            size: 24,
-          ),
-        ),
-        elevation: 0,
-      ),
+      backgroundColor: kBackgroundColor,
+      appBar: TopNavBar(title: 'Countdown size'),
       body: Column(
         children: [
           Flexible(
@@ -48,7 +31,7 @@ class _CustomThemeState extends State<CustomTheme> {
                 itemBuilder: ((context, index) {
                   return Column(children: [
                     RadioListTile<Themes>(
-                      activeColor: Colors.black,
+                      activeColor: kRadioButtonActiveColor,
                       title: const Text('Light'),
                       value: Themes.light,
                       groupValue: _theme,
@@ -59,7 +42,7 @@ class _CustomThemeState extends State<CustomTheme> {
                       },
                     ),
                     RadioListTile<Themes>(
-                      activeColor: Colors.black,
+                      activeColor: kRadioButtonActiveColor,
                       title: const Text('Dark'),
                       value: Themes.dark,
                       groupValue: _theme,

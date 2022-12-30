@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:kount/screens/cards/countdown_card.dart';
 import 'package:kount/screens/partials/navbar.dart';
+import 'package:kount/screens/partials/top_navbar.dart';
+import 'package:kount/screens/styles/constants.dart';
 
 class CountdownSize extends StatefulWidget {
   const CountdownSize({super.key});
@@ -17,27 +19,8 @@ class _CountdownSizeState extends State<CountdownSize> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: Text(
-          'Countdown Size',
-          style: TextStyle(fontSize: 18),
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.white,
-        titleTextStyle: TextStyle(color: Colors.black),
-        iconTheme: IconThemeData(color: Colors.black),
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: HeroIcon(
-            HeroIcons.arrowLeft,
-            size: 24,
-          ),
-        ),
-        elevation: 0,
-      ),
+      backgroundColor: kBackgroundColor,
+      appBar: TopNavBar(title: 'Countdown size'),
       body: Column(
         children: [
           CountdownCard(),
@@ -45,7 +28,7 @@ class _CountdownSizeState extends State<CountdownSize> {
             child: Column(
               children: [
                 RadioListTile<Sizes>(
-                  activeColor: Colors.black,
+                  activeColor: kRadioButtonActiveColor,
                   title: const Text('Small'),
                   value: Sizes.small,
                   groupValue: _size,
@@ -56,7 +39,7 @@ class _CountdownSizeState extends State<CountdownSize> {
                   },
                 ),
                 RadioListTile<Sizes>(
-                  activeColor: Colors.black,
+                  activeColor: kRadioButtonActiveColor,
                   title: const Text('Medium'),
                   value: Sizes.medium,
                   groupValue: _size,

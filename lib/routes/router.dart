@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kount/routes/routes.dart';
+import 'package:kount/screens/auth/login.dart';
+import 'package:kount/screens/auth/register.dart';
 import 'package:kount/screens/create_countdown.dart';
 import 'package:kount/screens/home.dart';
 import 'package:kount/screens/profile.dart';
@@ -16,4 +18,6 @@ Map<String, WidgetBuilder> router = {
   kCountdownFormatRoute: (context) => const CountdownFormat(),
   kCountdownSizeRoute: (context) => const CountdownSize(),
   kThemeRoute: (context) => const CustomTheme(),
+  kRegisterRoute: (context) => const Register(),
+  kLoginRoute: (context) => const Login(),
 };

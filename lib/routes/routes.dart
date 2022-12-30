@@ -5,3 +5,5 @@ const String kSettingsRoute = '/settings';
 const String kCountdownFormatRoute = '/settings/countdown_format';
 const String kCountdownSizeRoute = '/settings/countdown_size';
 const String kThemeRoute = '/settings/theme';
+const String kRegisterRoute = '/register';
+const String kLoginRoute = '/login';

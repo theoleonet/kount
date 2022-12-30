@@ -4,6 +4,8 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:kount/screens/cards/countdown_card.dart';
 import 'package:kount/screens/partials/navbar.dart';
+import 'package:kount/screens/partials/top_navbar.dart';
+import 'package:kount/screens/styles/constants.dart';
 
 class CountdownFormat extends StatefulWidget {
   const CountdownFormat({super.key});
@@ -21,27 +23,8 @@ class _CountdownFormatState extends State<CountdownFormat> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: Text(
-          'Countdown Format',
-          style: TextStyle(fontSize: 18),
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.white,
-        titleTextStyle: TextStyle(color: Colors.black),
-        iconTheme: IconThemeData(color: Colors.black),
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: HeroIcon(
-            HeroIcons.arrowLeft,
-            size: 24,
-          ),
-        ),
-        elevation: 0,
-      ),
+      backgroundColor: kBackgroundColor,
+      appBar: TopNavBar(title: 'Countdown format'),
       body: Column(
         children: [
           CountdownCard(),
@@ -51,7 +34,7 @@ class _CountdownFormatState extends State<CountdownFormat> {
                 itemBuilder: ((context, index) {
                   return Column(children: [
                     RadioListTile<Formats>(
-                      activeColor: Colors.black,
+                      activeColor: kRadioButtonActiveColor,
                       title: const Text('Smart'),
                       value: Formats.smart,
                       groupValue: _format,
@@ -62,7 +45,7 @@ class _CountdownFormatState extends State<CountdownFormat> {
                       },
                     ),
                     RadioListTile<Formats>(
-                      activeColor: Colors.black,
+                      activeColor: kRadioButtonActiveColor,
                       title: const Text('Years'),
                       value: Formats.years,
                       groupValue: _format,
@@ -73,7 +56,7 @@ class _CountdownFormatState extends State<CountdownFormat> {
                       },
                     ),
                     RadioListTile<Formats>(
-                      activeColor: Colors.black,
+                      activeColor: kRadioButtonActiveColor,
                       title: const Text('Months'),
                       value: Formats.months,
                       groupValue: _format,
@@ -84,7 +67,7 @@ class _CountdownFormatState extends State<CountdownFormat> {
                       },
                     ),
                     RadioListTile<Formats>(
-                      activeColor: Colors.black,
+                      activeColor: kRadioButtonActiveColor,
                       title: const Text('Days'),
                       value: Formats.days,
                       groupValue: _format,
@@ -95,7 +78,7 @@ class _CountdownFormatState extends State<CountdownFormat> {
                       },
                     ),
                     RadioListTile<Formats>(
-                      activeColor: Colors.black,
+                      activeColor: kRadioButtonActiveColor,
                       title: const Text('Hours'),
                       value: Formats.hours,
                       groupValue: _format,
@@ -106,7 +89,7 @@ class _CountdownFormatState extends State<CountdownFormat> {
                       },
                     ),
                     RadioListTile<Formats>(
-                      activeColor: Colors.black,
+                      activeColor: kRadioButtonActiveColor,
                       title: const Text('Minutes'),
                       value: Formats.minutes,
                       groupValue: _format,
@@ -117,7 +100,7 @@ class _CountdownFormatState extends State<CountdownFormat> {
                       },
                     ),
                     RadioListTile<Formats>(
-                      activeColor: Colors.black,
+                      activeColor: kRadioButtonActiveColor,
                       title: const Text('Seconds'),
                       value: Formats.seconds,
                       groupValue: _format,
