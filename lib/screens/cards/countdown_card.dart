@@ -1,9 +1,110 @@
+import 'dart:async';
+
+import 'package:appwrite/appwrite.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:kount/screens/auth/auth_state.dart';
 import 'package:kount/screens/single_countdown.dart';
 import 'package:kount/screens/styles/constants.dart';
+import 'package:intl/intl.dart';
 
-class CountdownCard extends StatelessWidget {
-  const CountdownCard({super.key});
+class CountdownCard extends StatefulWidget {
+  const CountdownCard(
+      {required this.title,
+      required this.date,
+      this.unsplash_url,
+      this.galery_image_id,
+      this.color,
+      super.key});
+
+  final String title;
+  final String date;
+  final String? unsplash_url;
+  final String? galery_image_id;
+  final int? color;
+
+  @override
+  State<CountdownCard> createState() => _CountdownCardState();
+}
+
+class _CountdownCardState extends State<CountdownCard> {
+  Uint8List? thumbnail;
+  DateTime? dateFormatted;
+  late Timer _timer;
+
+  @override
+  void initState() {
+    if (widget.galery_image_id != null) {
+      getThumbnail(widget.galery_image_id!);
+    }
+    dateFormatted = DateTime.parse(widget.date).toLocal();
+    print(DateTime.now().toLocal());
+    _timer = Timer.periodic(const Duration(minutes: 1), (timer) => _update());
+  }
+
+  void _update() {
+    setState(() {
+      getSmartDate(dateFormatted!);
+    });
+  }
+
+  Future getThumbnail(String fileId) async {
+    AuthState state = AuthState();
+    Storage storage = state.storage;
+
+    final result = await storage.getFilePreview(
+        bucketId: '63b19dd7a3d52e427307',
+        fileId: fileId,
+        width: 150,
+        height: 150);
+
+    thumbnail = result;
+    setState(() {});
+  }
+
+  String getSmartDate(DateTime date) {
+    String years = date.difference(DateTime.now().toLocal()).inDays / 365 < 1
+        ? '0'
+        : (date.difference(DateTime.now().toLocal()).inDays / 365)
+            .round()
+            .toString();
+
+    String weeks = date.difference(DateTime.now().toLocal()).inDays / 7 < 1
+        ? '0'
+        : (date.difference(DateTime.now().toLocal()).inDays / 7)
+            .round()
+            .toString();
+
+    String days = (date.difference(DateTime.now().toLocal()).inDays).toString();
+
+    String hours =
+        (date.difference(DateTime.now().toLocal()).inHours).toString();
+
+    String minutes =
+        (date.difference(DateTime.now().toLocal()).inMinutes).toString();
+
+    return years != '0'
+        ? years != '1'
+            ? 'in $years years'
+            : 'in $years year'
+        : weeks != '0'
+            ? weeks != '1'
+                ? 'in $weeks weeks'
+                : 'in $weeks week'
+            : days != '0'
+                ? days != '1'
+                    ? 'in $days days'
+                    : 'in $days day'
+                : hours != '0'
+                    ? hours != '1'
+                        ? 'in $hours hours'
+                        : 'in $hours hour'
+                    : minutes != '0'
+                        ? minutes != '1'
+                            ? 'in $minutes minutes'
+                            : 'in $minutes minute'
+                        : 'now';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,11 +127,22 @@ class CountdownCard extends StatelessWidget {
                   ),
                   child: Stack(
                     children: [
-                      Ink.image(
-                        image: const NetworkImage(
-                            'https://images.pexels.com/photos/262978/pexels-photo-262978.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'),
-                        fit: BoxFit.cover,
-                      ),
+                      widget.galery_image_id != null
+                          ? thumbnail != null
+                              ? Ink.image(
+                                  image: MemoryImage(thumbnail!),
+                                  fit: BoxFit.cover,
+                                )
+                              : Container(color: Colors.grey)
+                          : widget.unsplash_url != null
+                              ? Ink.image(
+                                  image: NetworkImage(widget.unsplash_url!),
+                                  fit: BoxFit.cover)
+                              : widget.color != null
+                                  ? Container(
+                                      color: Color(widget.color!),
+                                    )
+                                  : Container(color: Colors.grey),
                       Container(
                         color: kOverlayColor,
                       ),
@@ -39,23 +151,25 @@ class CountdownCard extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
+                          children: [
                             Text(
-                              'Dinner at the chineese restaurant with family',
+                              widget.title,
                               style: kCardTitleStyle,
                             ),
                             SizedBox(
                               height: kDefaultSpacer,
                             ),
                             Text(
-                              'In 12 days',
+                              getSmartDate(dateFormatted!),
                               style: kCardTimeStyle,
                             ),
                             SizedBox(
                               height: kDefaultSpacer / 2,
                             ),
                             Text(
-                              '14 november 2022',
+                              DateFormat('y MMMM d')
+                                  .format(dateFormatted!)
+                                  .toString(),
                               style: kCardDateStyle,
                             ),
                           ],

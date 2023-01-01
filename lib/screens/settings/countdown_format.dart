@@ -27,7 +27,7 @@ class _CountdownFormatState extends State<CountdownFormat> {
       appBar: TopNavBar(title: 'Countdown format'),
       body: Column(
         children: [
-          CountdownCard(),
+          // CountdownCard(),
           Flexible(
             child: ListView.builder(
                 itemCount: 1,

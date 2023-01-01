@@ -22,6 +22,9 @@ class _BottomNavBarState extends State<BottomNavBar> {
   bool loggedIn = false;
 
   Future checkIfUserIsLoggedIn() async {
+    if (loggedIn) {
+      return;
+    }
     AuthState state = AuthState();
     Account account = state.account;
 

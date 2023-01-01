@@ -23,7 +23,7 @@ class _CountdownSizeState extends State<CountdownSize> {
       appBar: TopNavBar(title: 'Countdown size'),
       body: Column(
         children: [
-          CountdownCard(),
+          // CountdownCard(),
           Flexible(
             child: Column(
               children: [

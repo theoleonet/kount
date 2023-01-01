@@ -1,11 +1,14 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
+import 'package:appwrite/appwrite.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:kount/screens/auth/auth_state.dart';
 import 'package:kount/screens/partials/button.dart';
 import 'package:kount/screens/partials/color_button.dart';
 import 'package:intl/intl.dart';
@@ -25,20 +28,24 @@ class CreateCountdown extends StatefulWidget {
 class _CreateCountdownState extends State<CreateCountdown> {
   File? image;
   DateTime eventTime = DateTime.now();
+  String? title;
+  dynamic background = kBaseColorPickerColor;
 
   List<Widget> _mediaFromLibraryList = [];
   List<Widget> _mediaFromUnsplashList = [];
+  List<String> _libraryPicturesPath = [];
+  List<String> _unsplashPicturesUrl = [];
   int currentPage = 0;
   int? lastPage;
   bool photoAdded = false;
   String backgroundType = 'color';
 
-  Color color = kBaseColorPickerColor;
-  late List<Color?> colors;
+  int color = kBaseColorPickerColor;
+  late List<int?> colors;
 
   void initState() {
     colors = [
-      null,
+      kBaseColorPickerColor,
       kBaseColorPickerRed,
       kBaseColorPickerOrange,
       kBaseColorPickerYellow,
@@ -85,8 +92,11 @@ class _CreateCountdownState extends State<CreateCountdown> {
       );
 
   Widget buildColorPicker() => ColorPicker(
-        pickerColor: color,
-        onColorChanged: (color) => setState(() => this.color = color),
+        pickerColor: Color(color),
+        onColorChanged: (color) => setState(() {
+          this.color = color.value;
+          background = color.value;
+        }),
       );
 
 //Get images from the gallery
@@ -100,6 +110,11 @@ class _CreateCountdownState extends State<CreateCountdown> {
           .getAssetListPaged(page: currentPage, size: kShownInPicker);
       List<Widget> temp = [];
       for (var asset in media) {
+        // print(asset.file);
+        var result = await asset.originFile.then((response) {
+          _libraryPicturesPath.add(response!.path.toString());
+        });
+
         temp.add(
           FutureBuilder(
             future: asset.thumbnailDataWithSize(
@@ -111,6 +126,7 @@ class _CreateCountdownState extends State<CreateCountdown> {
                 return Container();
               }
               if (snapshot.connectionState == ConnectionState.done) {
+                // print(_libraryPicturesData);
                 return Stack(
                   children: <Widget>[
                     Positioned.fill(
@@ -152,6 +168,10 @@ class _CreateCountdownState extends State<CreateCountdown> {
       final imageTemp = File(image.path);
       setState(() {
         this.image = imageTemp;
+        _libraryPicturesPath.insert(0, image.path);
+        background = _libraryPicturesPath[0];
+        backgroundType = 'galeryImage';
+
         if (!photoAdded) {
           _mediaFromLibraryList.insert(1, _mediaFromLibraryList[0]);
         }
@@ -204,6 +224,7 @@ class _CreateCountdownState extends State<CreateCountdown> {
               );
 
               _mediaFromUnsplashList.add(media);
+              _unsplashPicturesUrl.add(data['urls']['regular']);
             });
           } catch (error) {
             print(error.toString());
@@ -219,6 +240,48 @@ class _CreateCountdownState extends State<CreateCountdown> {
 
   Future searchImage() async {}
 
+  String getRandomString(int length) {
+    const characters = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz';
+    Random random = Random();
+    return String.fromCharCodes(Iterable.generate(length,
+        (_) => characters.codeUnitAt(random.nextInt(characters.length))));
+  }
+
+  Future createCountdown({String? galleryImageId}) async {
+    AuthState state = AuthState();
+    Databases databases = state.databases;
+    Account account = state.account;
+
+    Map<dynamic, dynamic> data;
+
+    Future result = account.get();
+    result.then((response) {
+      var user_id = response.$id;
+      data = {
+        'title': title,
+        'date': eventTime.toIso8601String(),
+        'user_id': user_id,
+        'unsplash_url': backgroundType == 'unsplashImage' ? background : null,
+        'color': backgroundType == 'color' ? background : null,
+        'galery_image_id':
+            backgroundType == 'galeryImage' ? galleryImageId : null,
+      };
+
+      Future result = databases.createDocument(
+        databaseId: '63af4631caad4e759e6e',
+        collectionId: '63af48604cb294dfe0b2',
+        documentId: ID.unique(),
+        data: data,
+      );
+
+      result.then((response) {}).catchError((error) {
+        print(error);
+      }).catchError((error) {
+        print(error);
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -233,6 +296,9 @@ class _CreateCountdownState extends State<CreateCountdown> {
             child: Column(
               children: [
                 CustomTextField(
+                  onChanged: (value) {
+                    title = value;
+                  },
                   label: 'Title of the countdown',
                   help: 'Ex: Dinner at the chineese restaurant with family',
                 ),
@@ -301,8 +367,12 @@ class _CreateCountdownState extends State<CreateCountdown> {
                                       GestureDetector(
                                         onTap: () {
                                           setState(() {
+                                            print(index);
                                             selectedIndex = index;
                                             backgroundType = 'color';
+                                            index == colors.length - 1
+                                                ? background = color
+                                                : background = colors[index]!;
                                           });
                                           if (selectedIndex ==
                                                   colors.length - 1 &&
@@ -375,6 +445,8 @@ class _CreateCountdownState extends State<CreateCountdown> {
                                           setState(() {
                                             selectedIndex = index;
                                             backgroundType = 'galeryImage';
+                                            background =
+                                                _libraryPicturesPath[index];
                                           });
                                         },
                                         child: Container(
@@ -438,6 +510,9 @@ class _CreateCountdownState extends State<CreateCountdown> {
                                         setState(() {
                                           selectedIndex = index;
                                           backgroundType = 'unsplashImage';
+                                          background =
+                                              _unsplashPicturesUrl[index];
+                                          print(background);
                                         });
                                       },
                                       child: Container(
@@ -469,7 +544,28 @@ class _CreateCountdownState extends State<CreateCountdown> {
                       SizedBox(
                         height: kDefaultSpacer * 2,
                       ),
-                      Button(text: 'Create countdown'),
+                      Button(
+                          onTap: () {
+                            if (backgroundType == 'galeryImage') {
+                              AuthState state = AuthState();
+                              Storage storage = state.storage;
+
+                              Future result = storage.createFile(
+                                bucketId: '63b19dd7a3d52e427307',
+                                fileId: ID.unique(),
+                                file: InputFile(
+                                    path: background,
+                                    filename: getRandomString(56) + '.jpg'),
+                              );
+
+                              result.then((response) {
+                                createCountdown(galleryImageId: response.$id);
+                              });
+                            } else {
+                              createCountdown();
+                            }
+                          },
+                          text: 'Create countdown'),
                     ],
                   ),
                 ),

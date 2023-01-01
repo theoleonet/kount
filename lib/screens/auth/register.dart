@@ -48,8 +48,11 @@ class _RegisterState extends State<Register> {
     );
 
     result.then((response) {
-      account.createEmailSession(email: email, password: password);
-      Navigator.pushNamed(context, kProfileRoute);
+      Future result =
+          account.createEmailSession(email: email, password: password);
+      result.then((response) {
+        Navigator.pushNamed(context, kProfileRoute);
+      });
     }).catchError((error) {
       print(error.message);
     });

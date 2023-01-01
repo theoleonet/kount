@@ -45,13 +45,13 @@ const TextStyle kCardDateStyle = TextStyle(
 const Color kBackgroundColor = Color(0xFFFFFFFF);
 const Color kSingleCountdownIconsColor = Color(0xFFFFFFFF);
 
-const Color kBaseColorPickerColor = Color(0xFFEEEEEE);
-const Color kBaseColorPickerRed = Color(0xFFFF0000);
-const Color kBaseColorPickerOrange = Color(0xFFFF6F00);
-const Color kBaseColorPickerYellow = Color(0xFFFDD835);
-const Color kBaseColorPickerGreen = Color(0xFFAEEA00);
-const Color kBaseColorPickerBlue = Color(0xFF26C6DA);
-const Color kBaseColorPickerPurple = Color(0xFF7B1FA2);
+const int kBaseColorPickerColor = 0xFFEEEEEE;
+const int kBaseColorPickerRed = 0xFFFF0000;
+const int kBaseColorPickerOrange = 0xFFFF6F00;
+const int kBaseColorPickerYellow = 0xFFFDD835;
+const int kBaseColorPickerGreen = 0xFFAEEA00;
+const int kBaseColorPickerBlue = 0xFF26C6DA;
+const int kBaseColorPickerPurple = 0xFF7B1FA2;
 const int kShownInPicker = 20;
 const ThumbnailSize kImageThumbnailSize = ThumbnailSize(750, 1334);
 
@@ -127,8 +127,6 @@ const double kSettingOptionIconSize = 16;
 const Color kSettingOptionIconColor = Color(0xFF9E9E9E);
 
 const double kColorButtonRadius = 56;
-
-const Color kBaseColorButtonColor = Color(0xFFEEEEEE);
 
 const Color kColorButtonIconColor = Color(0xFF9E9E9E);
 

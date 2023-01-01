@@ -5,6 +5,9 @@ import 'package:kount/screens/auth/register.dart';
 class AuthState {
   Client client = Client();
   late Account account;
+  late Storage storage;
+  late Avatars avatars;
+  late Databases databases;
 
   AuthState() {
     _init();
@@ -23,33 +26,8 @@ class AuthState {
         ); // For self signed certificates, only use for development
 
     account = Account(client);
-  }
-
-  createAccount(String email, String password) async {
-    Future result = account.create(
-      userId: ID.unique(),
-      email: email,
-      password: password,
-    );
-
-    result.then((response) {
-      print(response);
-    }).catchError((error) {
-      print(error.message);
-    });
-  }
-
-  loginAccount(String email, String password) async {
-    Future result = account.createEmailSession(
-      email: email,
-      password: password,
-    );
-
-    result.then((response) {
-      print(response);
-    }).catchError((error) {
-      print(error.response);
-      Register();
-    });
+    storage = Storage(client);
+    avatars = Avatars(client);
+    databases = Databases(client);
   }
 }

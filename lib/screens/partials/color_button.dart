@@ -10,7 +10,7 @@ class ColorButton extends StatelessWidget {
     /* this.border = false */
   });
 
-  final Color? color;
+  final int? color;
   final HeroIcons? icon;
 
   @override
@@ -19,7 +19,7 @@ class ColorButton extends StatelessWidget {
       width: kColorButtonRadius,
       height: kColorButtonRadius,
       decoration: BoxDecoration(
-        color: color == null ? kBaseColorButtonColor : color!,
+        color: color == null ? Color(kBaseColorPickerColor) : Color(color!),
         shape: BoxShape.circle,
       ),
       child: Center(
