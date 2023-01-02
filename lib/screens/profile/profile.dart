@@ -127,7 +127,9 @@ class _ProfileState extends State<Profile> {
         title: 'Profile',
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamed(context, kProfileEditRoute);
+            },
             icon: HeroIcon(
               HeroIcons.pencilSquare,
               size: 24,
@@ -188,14 +190,7 @@ class _ProfileState extends State<Profile> {
                       ),
                       ProfileField(
                         label: 'Email',
-                        value: 'tomvoldy@evilmail.com',
-                      ),
-                      SizedBox(
-                        height: kDefaultSpacer * 2.5,
-                      ),
-                      ProfileField(
-                        label: 'Password',
-                        value: '•••••••••••••••',
+                        value: user.email,
                       ),
                       SizedBox(
                         height: kDefaultSpacer * 2.5,

@@ -142,3 +142,13 @@ const IconThemeData kTopNavBarIconsStyle = IconThemeData(color: Colors.black);
 const Color kRadioButtonActiveColor = Color(0xFF000000);
 
 const TextStyle kCreationFieldError = TextStyle(color: Colors.red);
+
+const TextStyle kEditProfileTitleStyle = TextStyle(
+  fontSize: 20,
+  fontWeight: FontWeight.bold,
+);
+
+const TextStyle kSuccessText = TextStyle(
+  fontSize: 18,
+  color: Colors.green,
+);

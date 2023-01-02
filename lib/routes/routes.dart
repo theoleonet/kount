@@ -1,6 +1,7 @@
 const String kHomeRoute = '/';
 const String kCreateCountdownRoute = '/create';
 const String kProfileRoute = '/profile';
+const String kProfileEditRoute = '/profile/edit';
 const String kSettingsRoute = '/settings';
 const String kCountdownFormatRoute = '/settings/countdown_format';
 const String kCountdownSizeRoute = '/settings/countdown_size';

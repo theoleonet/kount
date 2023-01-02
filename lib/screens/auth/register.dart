@@ -33,6 +33,7 @@ class _RegisterState extends State<Register> {
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
+    _nameController.dispose();
     super.dispose();
   }
 
