@@ -55,7 +55,7 @@ class _CountdownCardState extends State<CountdownCard> {
     final result = await storage.getFilePreview(
         bucketId: '63b19dd7a3d52e427307',
         fileId: fileId,
-        width: 150,
+        width: 320,
         height: 150);
 
     thumbnail = result;
@@ -110,8 +110,18 @@ class _CountdownCardState extends State<CountdownCard> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const SingleCountdown()));
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => SingleCountdown(
+              title: widget.title,
+              dateFormatted: dateFormatted!,
+              color: widget.color,
+              galery_image_id: widget.galery_image_id,
+              unsplash_url: widget.unsplash_url,
+            ),
+          ),
+        );
       },
       child: Center(
         child: Column(

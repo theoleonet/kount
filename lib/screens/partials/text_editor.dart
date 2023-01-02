@@ -18,50 +18,53 @@ class _TextEditorState extends State<TextEditor> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: MediaQuery.of(context).size.height / 100 * 70 -
-          MediaQuery.of(context).viewInsets.bottom / 100 * 70,
-      child: Column(
-        children: [
-          Expanded(
-            flex: 1,
-            child: QuillEditor(
-              controller: _controller,
-              readOnly: false,
-              scrollController: ScrollController(),
-              scrollable: true,
-              focusNode: FocusNode(),
-              autoFocus: false,
-              expands: false,
-              // maxHeight: MediaQuery.of(context).viewInsets.bottom,
-              // minHeight: 300,
-              padding: EdgeInsets.zero,
-              placeholder: 'How was your day?',
-              showCursor: true,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Container(
+        height: MediaQuery.of(context).size.height / 100 * 70 -
+            MediaQuery.of(context).viewInsets.bottom / 100 * 70,
+        child: Column(
+          children: [
+            Expanded(
+              flex: 1,
+              child: QuillEditor(
+                controller: _controller,
+                readOnly: false,
+                scrollController: ScrollController(),
+                scrollable: true,
+                focusNode: FocusNode(),
+                autoFocus: false,
+                expands: false,
+                // maxHeight: MediaQuery.of(context).viewInsets.bottom,
+                // minHeight: 300,
+                padding: EdgeInsets.zero,
+                placeholder: 'How was your day?',
+                showCursor: true,
+              ),
             ),
-          ),
-          QuillToolbar.basic(
-            toolbarIconSize: 25,
+            QuillToolbar.basic(
+              toolbarIconSize: 25,
 
-            toolbarSectionSpacing: 10,
-            controller: _controller,
-            // showDividers: false,
-            showFontFamily: false,
-            showLink: true,
-            showSmallButton: false,
-            showInlineCode: false,
-            showColorButton: false,
-            showBackgroundColorButton: false,
-            showClearFormat: false,
-            // showHeaderStyle: false,
-            // showListNumbers: false,
-            // showListCheck: false,
-            showCodeBlock: false,
-            // showIndent: false,
-            // showHistory: false,
-            multiRowsDisplay: false,
-          ),
-        ],
+              toolbarSectionSpacing: 10,
+              controller: _controller,
+              // showDividers: false,
+              showFontFamily: false,
+              showLink: true,
+              showSmallButton: false,
+              showInlineCode: false,
+              showColorButton: false,
+              showBackgroundColorButton: false,
+              showClearFormat: false,
+              // showHeaderStyle: false,
+              // showListNumbers: false,
+              // showListCheck: false,
+              showCodeBlock: false,
+              // showIndent: false,
+              // showHistory: false,
+              multiRowsDisplay: false,
+            ),
+          ],
+        ),
       ),
     );
   }
