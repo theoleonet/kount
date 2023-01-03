@@ -3,11 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:kount/routes/routes.dart';
 import 'package:kount/screens/auth/auth_state.dart';
+import 'package:kount/screens/layout.dart';
 import 'package:kount/screens/partials/clickable_icon.dart';
 import 'package:kount/screens/styles/constants.dart';
 
 class BottomNavBar extends StatefulWidget {
-  const BottomNavBar({super.key});
+  const BottomNavBar({this.currentTab, this.onSelectTab, super.key});
+
+  final TabItem? currentTab;
+  final Function(int index)? onSelectTab;
 
   @override
   State<BottomNavBar> createState() => _BottomNavBarState();
@@ -54,19 +58,27 @@ class _BottomNavBarState extends State<BottomNavBar> {
         children: [
           ClickableIcon(
             icon: HeroIcons.home,
-            route: kHomeRoute,
+            onTap: () {
+              widget.onSelectTab!(0);
+            },
           ),
           ClickableIcon(
             icon: HeroIcons.plusCircle,
-            route: kCreateCountdownRoute,
+            onTap: () {
+              widget.onSelectTab!(1);
+            },
           ),
           ClickableIcon(
             icon: HeroIcons.cog8Tooth,
-            route: kSettingsRoute,
+            onTap: () {
+              widget.onSelectTab!(2);
+            },
           ),
           ClickableIcon(
             icon: HeroIcons.userCircle,
-            route: loggedIn ? kProfileRoute : kRegisterRoute,
+            onTap: () {
+              widget.onSelectTab!(3);
+            },
           ),
         ],
       ),

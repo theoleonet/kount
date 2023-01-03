@@ -4,16 +4,14 @@ import 'package:kount/routes/routes.dart';
 import 'package:kount/screens/styles/constants.dart';
 
 class ClickableIcon extends StatelessWidget {
-  const ClickableIcon({required this.icon, required this.route, super.key});
+  const ClickableIcon({required this.icon, required this.onTap, super.key});
   final HeroIcons icon;
-  final String route;
+  final GestureTapCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Navigator.pushNamed(context, route);
-      },
+      onTap: onTap,
       child: HeroIcon(
         icon,
         size: kBigIconSize,

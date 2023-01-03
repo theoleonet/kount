@@ -84,8 +84,6 @@ class _SingleCountdownState extends State<SingleCountdown> {
     String seconds =
         (date.difference(DateTime.now().toLocal()).inSeconds).toString();
 
-    print(format);
-
     if (format == 'year') {
       return years != '1' ? 'in $years years' : 'in $years year';
     }
@@ -317,7 +315,6 @@ class _SingleCountdownState extends State<SingleCountdown> {
           ),
         ],
       ),
-      bottomNavigationBar: const BottomNavBar(),
     );
   }
 }

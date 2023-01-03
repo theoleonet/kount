@@ -1,4 +1,5 @@
-const String kHomeRoute = '/';
+const String kLayoutRoute = '/';
+const String kHomeRoute = '/home';
 const String kCreateCountdownRoute = '/create';
 const String kProfileRoute = '/profile';
 const String kProfileEditRoute = '/profile/edit';

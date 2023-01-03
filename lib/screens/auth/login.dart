@@ -79,7 +79,7 @@ class _LoginState extends State<Login> {
     return Scaffold(
       backgroundColor: kBackgroundColor,
       appBar: TopNavBar(
-        title: 'Register',
+        title: 'login',
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(
@@ -153,7 +153,6 @@ class _LoginState extends State<Login> {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavBar(),
     );
   }
 }

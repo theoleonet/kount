@@ -45,6 +45,7 @@ dependencies:
   provider: ^6.0.5
   email_validator: ^2.1.17
   dio: ^4.0.6
+  strings: ^0.2.2
 
 dev_dependencies:
   flutter_test:

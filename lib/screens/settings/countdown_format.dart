@@ -205,7 +205,6 @@ class _CountdownFormatState extends State<CountdownFormat> {
           ),
         ],
       ),
-      bottomNavigationBar: BottomNavBar(),
     );
   }
 }

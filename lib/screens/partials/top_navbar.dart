@@ -23,7 +23,10 @@ class TopNavBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: kBackgroundColor,
       titleTextStyle: kTopNavBarTitleStyle,
       iconTheme: kTopNavBarIconsStyle,
-      leading: canPop(context)
+      leading: canPop(context) &&
+              ModalRoute.of(context)!.settings.name != '/login' &&
+              ModalRoute.of(context)!.settings.name != '/register' &&
+              ModalRoute.of(context)!.settings.name != '/profile'
           ? Padding(
               padding: EdgeInsets.only(left: 16),
               child: IconButton(

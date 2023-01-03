@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: MaterialApp(
-        initialRoute: kHomeRoute,
+        initialRoute: kLayoutRoute,
         routes: router,
         theme: ThemeData(),
       ),

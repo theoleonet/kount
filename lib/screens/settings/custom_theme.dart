@@ -57,7 +57,6 @@ class _CustomThemeState extends State<CustomTheme> {
           ),
         ],
       ),
-      bottomNavigationBar: BottomNavBar(),
     );
   }
 }

@@ -6,9 +6,9 @@ import 'package:image_picker/image_picker.dart';
 import 'package:kount/routes/routes.dart';
 import 'package:kount/screens/auth/auth_state.dart';
 import 'package:kount/screens/partials/button.dart';
-import 'package:kount/screens/partials/navbar.dart';
 import 'package:kount/screens/partials/profile_field.dart';
 import 'package:kount/screens/partials/top_navbar.dart';
+import 'package:kount/screens/profile/profile_edit.dart';
 import 'package:kount/screens/styles/constants.dart';
 import 'package:dio/dio.dart';
 
@@ -31,7 +31,6 @@ class _ProfileState extends State<Profile> {
 
     getUser(account);
     getUserPreferences(account);
-    getAvatarFromLetters();
   }
 
   String getRandomString(int length) {
@@ -48,7 +47,7 @@ class _ProfileState extends State<Profile> {
     Future result = account.get();
     result.then((response) {
       user = response;
-      setState(() {});
+      // setState(() {});
     }).catchError((error) {
       print(error.response);
     });
@@ -61,7 +60,9 @@ class _ProfileState extends State<Profile> {
       if (response.data['profile_pic'] != null &&
           response.data['profile_pic'] != '') {
         getProfilePic(response.data['profile_pic']);
+        return;
       }
+      getAvatarFromLetters();
     }).catchError((error) {
       print(error);
     });
@@ -106,7 +107,7 @@ class _ProfileState extends State<Profile> {
       return;
     }
     profilePic = null;
-    setState(() {});
+    // setState(() {});
   }
 
   Future getAvatarFromLetters() async {
@@ -116,17 +117,17 @@ class _ProfileState extends State<Profile> {
     Future result = avatars.getInitials(width: 150);
 
     result.then((response) {
-      print(response);
+      // print(response);
       avatarFromLetters = response;
       setState(() {});
     }).catchError((error) {});
-    setState(() {});
+    // setState(() {});
   }
 
   Future logOut(Account account) async {
     Future result = account.deleteSession(sessionId: 'current');
     result.then((response) {
-      Navigator.pushNamed(context, kHomeRoute);
+      Navigator.pushNamed(context, kLoginRoute);
     }).catchError((error) {});
   }
 
@@ -139,7 +140,11 @@ class _ProfileState extends State<Profile> {
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.pushNamed(context, kProfileEditRoute);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ProfileEdit(),
+                  ));
             },
             icon: HeroIcon(
               HeroIcons.pencilSquare,
@@ -154,88 +159,86 @@ class _ProfileState extends State<Profile> {
             horizontal: 16,
           ),
           child: SingleChildScrollView(
-            child: user != null || avatarFromLetters != null
-                ? Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Column(
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  AuthState state = AuthState();
-                                  Account account = state.account;
-                                  Storage storage = state.storage;
-                                  uploadProfilePic(storage, account);
-                                },
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(100),
-                                  child: profilePic != null
-                                      ? Image.memory(
-                                          profilePic,
-                                          width: 150,
-                                        )
-                                      : avatarFromLetters != null
-                                          ? Image.memory(
-                                              avatarFromLetters,
-                                              width: 150,
-                                              height: 150,
-                                              fit: BoxFit.cover,
-                                            )
-                                          : Container(
-                                              color: Colors.grey,
-                                              height: 150,
-                                              width: 150,
-                                            ),
+              child: user != null || avatarFromLetters != null
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Column(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    AuthState state = AuthState();
+                                    Account account = state.account;
+                                    Storage storage = state.storage;
+                                    uploadProfilePic(storage, account);
+                                  },
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(100),
+                                    child: profilePic != null
+                                        ? Image.memory(
+                                            profilePic,
+                                            width: 150,
+                                          )
+                                        : avatarFromLetters != null
+                                            ? Image.memory(
+                                                avatarFromLetters,
+                                                width: 150,
+                                                height: 150,
+                                                fit: BoxFit.cover,
+                                              )
+                                            : Container(
+                                                color: Colors.grey,
+                                                height: 150,
+                                                width: 150,
+                                              ),
+                                  ),
                                 ),
-                              ),
-                              SizedBox(
-                                height: kDefaultSpacer,
-                              ),
-                              Text(
-                                user.name,
-                                style: kCreationFieldLabel,
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: kDefaultSpacer * 2.5,
-                      ),
-                      ProfileField(
-                        label: 'Email',
-                        value: user.email,
-                      ),
-                      SizedBox(
-                        height: kDefaultSpacer * 2.5,
-                      ),
-                      Button(
-                        onTap: () {
-                          AuthState state = AuthState();
-                          Account account = state.account;
-                          logOut(account);
-                        },
-                        text: 'Log out',
-                        width: 200,
-                      ),
-                      SizedBox(
-                        height: kDefaultSpacer,
-                      ),
-                      Button(
-                        text: 'Delete account',
-                        color: Color(0xFFF44336),
-                        width: 200,
-                      ),
-                    ],
-                  )
-                : Container(),
-          ),
+                                SizedBox(
+                                  height: kDefaultSpacer,
+                                ),
+                                Text(
+                                  user.name,
+                                  style: kCreationFieldLabel,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: kDefaultSpacer * 2.5,
+                        ),
+                        ProfileField(
+                          label: 'Email',
+                          value: user.email,
+                        ),
+                        SizedBox(
+                          height: kDefaultSpacer * 2.5,
+                        ),
+                        Button(
+                          onTap: () {
+                            AuthState state = AuthState();
+                            Account account = state.account;
+                            logOut(account);
+                          },
+                          text: 'Log out',
+                          width: 200,
+                        ),
+                        SizedBox(
+                          height: kDefaultSpacer,
+                        ),
+                        Button(
+                          text: 'Delete account',
+                          color: Color(0xFFF44336),
+                          width: 200,
+                        ),
+                      ],
+                    )
+                  : Container()),
         ),
       ),
-      bottomNavigationBar: BottomNavBar(),
     );
   }
 }

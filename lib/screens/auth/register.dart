@@ -52,10 +52,27 @@ class _RegisterState extends State<Register> {
       Future result =
           account.createEmailSession(email: email, password: password);
       result.then((response) {
-        Navigator.pushNamed(context, kProfileRoute);
+        Future result = account.getPrefs();
+
+        result.then((response) {
+          var userPrefs = response.data;
+
+          Future result = account.updatePrefs(prefs: {
+            'profile_pic': userPrefs['profile_pic'] != null
+                ? userPrefs['profile_pic']
+                : null,
+            'countdown_format': 'smart',
+          });
+
+          result.then((response) {
+            Navigator.pushNamed(context, kProfileRoute);
+          }).catchError((error) {
+            print(error);
+          });
+        }).catchError((error) {});
+      }).catchError((error) {
+        print(error.message);
       });
-    }).catchError((error) {
-      print(error.message);
     });
   }
 
@@ -202,7 +219,6 @@ class _RegisterState extends State<Register> {
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavBar(),
     );
   }
 }

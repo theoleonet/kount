@@ -54,7 +54,6 @@ class _CountdownSizeState extends State<CountdownSize> {
           ),
         ],
       ),
-      bottomNavigationBar: BottomNavBar(),
     );
   }
 }
