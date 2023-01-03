@@ -26,6 +26,7 @@ class _ProfileEditState extends State<ProfileEdit> {
   var profilePic;
   var avatarFromLetters;
   late Timer _timer;
+  late Map<dynamic, dynamic> userPrefs;
 
   String password = '';
   String newPassword = '';
@@ -109,7 +110,13 @@ class _ProfileEditState extends State<ProfileEdit> {
 
     result.then((response) {
       final id = response.$id;
-      Future result = account.updatePrefs(prefs: {'profile_pic': id});
+      Future result = account.updatePrefs(prefs: {
+        'profile_pic': id,
+        'countdown_format': userPrefs['countdown_format'] != null &&
+                userPrefs['countdown_format'] != ''
+            ? userPrefs['countdown_format']
+            : 'smart'
+      });
       result.then((response) {
         getUserPreferences(account);
       });
@@ -122,23 +129,32 @@ class _ProfileEditState extends State<ProfileEdit> {
     Future result = account.getPrefs();
 
     result.then((response) {
-      getProfilePic(response.data['profile_pic']);
+      if (response.data['profile_pic'] != null &&
+          response.data['profile_pic'] != '') {
+        getProfilePic(response.data['profile_pic']);
+      }
+      userPrefs = response.data;
     }).catchError((error) {
-      print(error.response);
+      print(error);
     });
   }
 
   Future getProfilePic(String fileId) async {
-    AuthState state = AuthState();
-    Storage storage = state.storage;
+    if (fileId != null && fileId != '') {
+      AuthState state = AuthState();
+      Storage storage = state.storage;
 
-    final result = await storage.getFilePreview(
-        bucketId: '63aee16dee0424000ab2',
-        fileId: fileId,
-        width: 150,
-        height: 150);
+      final result = await storage.getFilePreview(
+          bucketId: '63aee16dee0424000ab2',
+          fileId: fileId,
+          width: 150,
+          height: 150);
 
-    profilePic = result;
+      profilePic = result;
+      setState(() {});
+      return;
+    }
+    profilePic = null;
     setState(() {});
   }
 
@@ -148,7 +164,8 @@ class _ProfileEditState extends State<ProfileEdit> {
 
     Future result = avatars.getInitials(width: 150);
     result.then((response) {
-      avatarFromLetters = result;
+      avatarFromLetters = response;
+      setState(() {});
     }).catchError((error) {});
     setState(() {});
   }
@@ -330,7 +347,9 @@ class _ProfileEditState extends State<ProfileEdit> {
                                   : avatarFromLetters != null
                                       ? Image.memory(
                                           avatarFromLetters,
-                                          width: 150,
+                                          width: 100,
+                                          height: 100,
+                                          fit: BoxFit.cover,
                                         )
                                       : Container(),
                             ),

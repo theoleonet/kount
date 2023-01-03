@@ -14,9 +14,11 @@ class SingleCountdown extends StatefulWidget {
   const SingleCountdown({
     required this.title,
     required this.dateFormatted,
+    required this.id,
     this.unsplash_url,
     this.galery_image_id,
     this.color,
+    this.content,
     super.key,
   });
 
@@ -25,6 +27,8 @@ class SingleCountdown extends StatefulWidget {
   final String? unsplash_url;
   final String? galery_image_id;
   final int? color;
+  final String id;
+  final String? content;
   @override
   State<SingleCountdown> createState() => _SingleCountdownState();
 }
@@ -33,24 +37,33 @@ class _SingleCountdownState extends State<SingleCountdown> {
   var thumbnail;
   DateTime? dateFormatted;
   late Timer _timer;
+  String? format;
 
   void initState() {
     if (widget.galery_image_id != null) {
       getThumbnail(widget.galery_image_id!);
     }
-    _timer = Timer.periodic(const Duration(minutes: 1), (timer) => _update());
+    _timer =
+        Timer.periodic(const Duration(milliseconds: 500), (timer) => _update());
+    getUserPrefs();
   }
 
   void _update() {
     setState(() {
-      getSmartDate(dateFormatted!);
+      getDate(date: dateFormatted!, format: format);
     });
   }
 
-  String getSmartDate(DateTime date) {
+  String getDate({required DateTime date, required String? format}) {
     String years = date.difference(DateTime.now().toLocal()).inDays / 365 < 1
         ? '0'
         : (date.difference(DateTime.now().toLocal()).inDays / 365)
+            .round()
+            .toString();
+
+    String months = date.difference(DateTime.now().toLocal()).inDays / 12 < 1
+        ? '0'
+        : (date.difference(DateTime.now().toLocal()).inDays / 12)
             .round()
             .toString();
 
@@ -68,27 +81,79 @@ class _SingleCountdownState extends State<SingleCountdown> {
     String minutes =
         (date.difference(DateTime.now().toLocal()).inMinutes).toString();
 
+    String seconds =
+        (date.difference(DateTime.now().toLocal()).inSeconds).toString();
+
+    print(format);
+
+    if (format == 'year') {
+      return years != '1' ? 'in $years years' : 'in $years year';
+    }
+
+    if (format == 'month') {
+      return months != '1' ? 'in $months months' : 'in $months month';
+    }
+
+    if (format == 'week') {
+      return weeks != '1' ? 'in $weeks weeks' : 'in $weeks week';
+    }
+
+    if (format == 'day') {
+      return days != '1' ? 'in $days days' : 'in $days day';
+    }
+
+    if (format == 'hour') {
+      return hours != '1' ? 'in $hours hours' : 'in $hours hour';
+    }
+
+    if (format == 'minute') {
+      return minutes != '1' ? 'in $minutes minutes' : 'in $minutes minute';
+    }
+
+    if (format == 'second') {
+      return seconds != '1' ? 'in $seconds seconds' : 'in $seconds second';
+    }
+
     return years != '0'
         ? years != '1'
             ? 'in $years years'
             : 'in $years year'
-        : weeks != '0'
-            ? weeks != '1'
-                ? 'in $weeks weeks'
-                : 'in $weeks week'
-            : days != '0'
-                ? days != '1'
-                    ? 'in $days days'
-                    : 'in $days day'
-                : hours != '0'
-                    ? hours != '1'
-                        ? 'in $hours hours'
-                        : 'in $hours hour'
-                    : minutes != '0'
-                        ? minutes != '1'
-                            ? 'in $minutes minutes'
-                            : 'in $minutes minute'
-                        : 'now';
+        : months != '0'
+            ? months != '1'
+                ? 'in $months months'
+                : 'in $months month'
+            : weeks != '0'
+                ? weeks != '1'
+                    ? 'in $weeks weeks'
+                    : 'in $weeks week'
+                : days != '0'
+                    ? days != '1'
+                        ? 'in $days days'
+                        : 'in $days day'
+                    : hours != '0'
+                        ? hours != '1'
+                            ? 'in $hours hours'
+                            : 'in $hours hour'
+                        : minutes != '0'
+                            ? minutes != '1'
+                                ? 'in $minutes minutes'
+                                : 'in $minutes minute'
+                            : seconds != '0'
+                                ? seconds != '1'
+                                    ? 'in $seconds seconds'
+                                    : 'in $seconds second'
+                                : 'now';
+  }
+
+  void getUserPrefs() {
+    AuthState state = AuthState();
+    Account account = state.account;
+
+    Future response = account.getPrefs();
+    response.then((result) {
+      format = result.data['countdown_format'];
+      setState(() {});
+    }).catchError((error) {});
   }
 
   Future getThumbnail(String fileId) async {
@@ -196,7 +261,7 @@ class _SingleCountdownState extends State<SingleCountdown> {
                   height: kDefaultSpacer,
                 ),
                 Text(
-                  getSmartDate(widget.dateFormatted),
+                  getDate(date: widget.dateFormatted, format: format),
                   style: kSingleCountdownTimeStyle,
                 ),
                 SizedBox(
@@ -229,7 +294,7 @@ class _SingleCountdownState extends State<SingleCountdown> {
                     controller: scrollController,
                     itemBuilder: (BuildContext context, int index) {
                       return Column(
-                        children: const [
+                        children: [
                           HeroIcon(
                             HeroIcons.chevronUp,
                             color: Colors.black,
@@ -238,7 +303,10 @@ class _SingleCountdownState extends State<SingleCountdown> {
                           SizedBox(
                             height: kDefaultSpacer * 2.5,
                           ),
-                          TextEditor(),
+                          TextEditor(
+                            countdown_id: widget.id,
+                            contentFromDB: widget.content,
+                          ),
                         ],
                       );
                     },

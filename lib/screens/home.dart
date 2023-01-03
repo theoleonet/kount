@@ -70,6 +70,8 @@ class _HomeState extends State<Home> {
                           unsplash_url: countdown['unsplash_url'],
                           galery_image_id: countdown['galery_image_id'],
                           color: countdown['color'],
+                          id: countdowns![index].$id,
+                          content: countdown['content'],
                         );
                       },
                     )

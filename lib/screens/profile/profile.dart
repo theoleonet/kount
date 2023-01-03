@@ -58,9 +58,12 @@ class _ProfileState extends State<Profile> {
     Future result = account.getPrefs();
 
     result.then((response) {
-      getProfilePic(response.data['profile_pic']);
+      if (response.data['profile_pic'] != null &&
+          response.data['profile_pic'] != '') {
+        getProfilePic(response.data['profile_pic']);
+      }
     }).catchError((error) {
-      print(error.response);
+      print(error);
     });
   }
 
@@ -88,16 +91,21 @@ class _ProfileState extends State<Profile> {
   }
 
   Future getProfilePic(String fileId) async {
-    AuthState state = AuthState();
-    Storage storage = state.storage;
+    if (fileId != null && fileId != '') {
+      AuthState state = AuthState();
+      Storage storage = state.storage;
 
-    final result = await storage.getFilePreview(
-        bucketId: '63aee16dee0424000ab2',
-        fileId: fileId,
-        width: 150,
-        height: 150);
+      final result = await storage.getFilePreview(
+          bucketId: '63aee16dee0424000ab2',
+          fileId: fileId,
+          width: 150,
+          height: 150);
 
-    profilePic = result;
+      profilePic = result;
+      setState(() {});
+      return;
+    }
+    profilePic = null;
     setState(() {});
   }
 
@@ -106,8 +114,11 @@ class _ProfileState extends State<Profile> {
     Avatars avatars = state.avatars;
 
     Future result = avatars.getInitials(width: 150);
+
     result.then((response) {
-      avatarFromLetters = result;
+      print(response);
+      avatarFromLetters = response;
+      setState(() {});
     }).catchError((error) {});
     setState(() {});
   }
@@ -143,7 +154,7 @@ class _ProfileState extends State<Profile> {
             horizontal: 16,
           ),
           child: SingleChildScrollView(
-            child: user != null
+            child: user != null || avatarFromLetters != null
                 ? Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -170,8 +181,14 @@ class _ProfileState extends State<Profile> {
                                           ? Image.memory(
                                               avatarFromLetters,
                                               width: 150,
+                                              height: 150,
+                                              fit: BoxFit.cover,
                                             )
-                                          : Container(),
+                                          : Container(
+                                              color: Colors.grey,
+                                              height: 150,
+                                              width: 150,
+                                            ),
                                 ),
                               ),
                               SizedBox(
